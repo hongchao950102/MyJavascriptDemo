@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>轮播图JavaScript版</title>
+	<style type="text/css">
+		*{margin:0;padding:0;}
+		img{width:540px;height:540px;}
+		#fadeImages{width:540px;height:540px;border:1px solid #000;margin:0 auto;overflow:hidden;position: relative;}
+		#imgs{width:2700px;height:540px;position: absolute;left:0px;}
+		#imgs li{float:left;list-style: none;margin-left: 0;}
+		#btns{width:540px;height:50px;position: absolute;z-index: 2;top:270px;display: none;cursor: pointer;}
+		.btnLeft,.btnRight{width:50px;height:50px;background-color: #f60;list-style: none;text-align: center;color:#fff;line-height: 50px;opacity:0.5;}
+		.btnLeft{float: left}
+		.btnRight{float: right}
+		
+		#highLight{width:540px;height:20px;position:absolute;z-index:3;bottom: 0px;}
+		#highLight li{width:10px;height:10px;border:1px solid #fff;float:left;border-radius: 5px;list-style: none;margin-left: 80px;}
+		.highLight{background-color: #f60}
+	</style>
+</head>
+<body>
+	 <div id="fadeImages">
+		 <ul id="imgs">
+		 	<li><img src="images/crg.jpg" alt="苏打绿-春.日光"/></li>
+		 	<li><img src="images/mayday2.jpg" alt="五月天-爱情万岁"/></li>
+		 	<li><img src="images/mayday9.jpg" alt="五月天-自传"/></li>
+		 	<li><img src="images/mmsh.jpg" alt="林宥嘉-美妙生活"/></li>
+		 	<li><img src="images/xkr.jpg" alt="苏打绿-夏/狂热"/></li>
+		 </ul>
+		 <ul id="btns">
+		 	<li class="btnLeft">&lt;</li>
+		 	<li class="btnRight">&gt;</li>
+		 </ul>
+		 <ul id="highLight">
+		 	<li value="0"></li>
+		 	<li value="1"></li>
+		 	<li value="2"></li>
+		 	<li value="3"></li>
+		 	<li value="4"></li>
+		 </ul>
+	 </div>
+	 <script>
+	 var box=document.getElementById("fadeImages");
+	 var imgs=document.getElementById("imgs");
+	 var btns=document.getElementById("btns");
+	 var btnLeft=document.getElementsByClassName("btnLeft")[0];
+	 var btnRight=document.getElementsByClassName("btnRight")[0];
+	 var highLightLi=document.getElementById("highLight").getElementsByTagName("li");
+	 	imgs.style.left="540px";
+	 var dist=0;
+	 var timer=0;
+	 var i=0;
+	 	function mouseOverLeave(){
+	 		
+	 		box.onmouseover=function(){
+	 			clearInterval(timer);
+	 			//alert("1");
+	 			btns.style.display="block";
+	 		}
+	 		box.onmouseout=function(){
+	 			clearInterval(timer);
+	 			timer=setInterval(fadeImags,3000);
+	 			//alert("1");
+	 			btns.style.display="none";
+	 		}
+	 	}
+	 	function clickBtns(){
+
+	 		btnLeft.onclick=function(){
+	 			var left=parseInt(imgs.style.left);
+	 			left=left+540;
+	 			
+	 			if(left>0){
+	 				left=-2160;
+	 			}
+	 			//alert(left);
+	 			imgs.style.left=left+"px";
+
+
+                //圆点高亮
+	 			i=left/(-540);
+	 			if(i==-1){
+	 				i=4;
+	 			}
+	 			highLightLi[i].className="highLight";
+	 			if(i+1<5){
+	 				highLightLi[i+1].className="";
+	 			}else if(i+1==5){
+	 				i=0;
+	 				highLightLi[i].className="";
+	 			}
+	 		}
+	 		btnRight.onclick=function(){
+	 			var left=parseInt(imgs.style.left);
+	 			left=left-540;
+	 			if(left<-2160){
+	 				left=0;
+	 			}
+	 			//alert(left);
+	 			imgs.style.left=left+"px";
+
+	 			 //圆点高亮
+	 			i=left/(-540);
+	 			if(i==-1){
+	 				i=4;
+	 			}
+	 			highLightLi[i].className="highLight";
+	 			if(i-1>-1){
+	 				highLightLi[i-1].className="";
+	 			}else if(i-1==-1){
+	 				i=4;
+	 				highLightLi[i].className="";
+	 			}
+	 		}
+	 	}
+
+	 	function fadeImags(){
+	 		//clearInterval(timer);
+	 		var left=parseInt(imgs.style.left);
+
+	 		if(left==-2160){
+	 			left=540;
+	 		}
+	 		if(left>-2160){
+	 			left-=540;
+	 		}
+
+	 		imgs.style.left=left+"px";
+
+	 		 //圆点高亮
+	 			i=left/(-540);
+	 			if(i==-1){
+	 				i=4;
+	 			}
+	 			highLightLi[i].className="highLight";
+	 			if(i-1>-1){
+	 				highLightLi[i-1].className="";
+	 			}else if(i-1==-1){
+	 				i=4;
+	 				highLightLi[i].className="";
+	 			}
+	 		
+	 	}
+	 	
+	 	timer=setInterval(fadeImags,3000);
+	 	
+	 	window.onload=function(){
+	 		fadeImags();
+	 		mouseOverLeave();
+	 		clickBtns();
+	 		clickLi();
+	 	}
+	 </script>
+</body>
+</html>
